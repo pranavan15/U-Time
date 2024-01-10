@@ -13,19 +13,20 @@ def ignore_out_of_bounds_classes_wrapper(func):
     'n_pred_classes' is determined as the length of the prediction tensor on the last dimension.
     """
     @wraps(func)
-    @tf.function
     def wrapper(true, pred, **kwargs):
-        true.set_shape(pred.get_shape()[:-1] + [1])
-        n_pred_classes = pred.get_shape()[-1]
+        true = tf.reshape(true, [-1, 1])
+        n_pred_classes = tf.shape(pred)[-1]
+
         true = tf.reshape(true, [-1])
         pred = tf.reshape(pred, [-1, n_pred_classes])
+
         mask = tf.where(tf.logical_and(
-                            tf.greater_equal(true, 0),
-                            tf.less(true, n_pred_classes)
+                            tf.greater_equal(tf.cast(true, tf.int32), 0),
+                            tf.less(tf.cast(true, tf.int32), tf.cast(n_pred_classes, tf.int32))
                         ),
-                        tf.ones_like(true),
-                        tf.zeros_like(true))
-        mask = tf.cast(mask, tf.bool)
+                        tf.ones_like(true, dtype=tf.bool),
+                        tf.zeros_like(true, dtype=tf.bool))
+
         true = tf.boolean_mask(true, mask, axis=0)
         pred = tf.boolean_mask(pred, mask, axis=0)
         return func(true, pred, **kwargs)
