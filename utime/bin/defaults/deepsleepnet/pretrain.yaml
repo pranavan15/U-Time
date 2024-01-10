@@ -75,7 +75,7 @@ fit:
   n_epochs: 2000
   verbose: true
   optimizer: "Adam"
-  optimizer_kwargs: {learning_rate: 1.0e-05, decay: 0.0, beta_1: 0.9, beta_2: 0.999, epsilon: 1.0e-8}
+  optimizer_kwargs: {learning_rate: 1.0e-05, beta_1: 0.9, beta_2: 0.999, epsilon: 1.0e-8}
 
   # Options: MinMaxScaler, StandardScaler, MaxAbsScaler,
   #          RobustScaler, QuantileTransformer, Null
