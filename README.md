@@ -79,7 +79,7 @@ or `miniconda` installed, run the following commands to download the software, c
 and setup the latest U-Time software package and its dependencies:
 
 ```
-git clone https://github.com/perslev/U-Time.git
+git clone https://github.com/pranavan15/U-Time.git
 conda env create --file U-Time/environment.yaml
 conda activate u-sleep
 pip install U-Time/
